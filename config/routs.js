@@ -1,9 +1,9 @@
-const { about } = require("../controllers/about");
-const { catalog } = require("../controllers/catalog");
-const { create } = require("../controllers/create");
-const { post } = require("../controllers/create");
-const { details } = require("../controllers/details");
-const { notFound } = require("../controllers/notFound");
+const { about } = require('../controllers/about');
+const { catalog } = require('../controllers/catalog');
+const { create } = require('../controllers/create');
+const { post } = require('../controllers/create');
+const { details } = require('../controllers/details');
+const { notFound } = require('../controllers/notFound');
 
 module.exports = (app) => {
   app.get("/", catalog);

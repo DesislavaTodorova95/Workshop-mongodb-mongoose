@@ -1,8 +1,8 @@
-const express = require("express");
-//setup handlebars
-const hbs = require("express-handlebars");
+const express = require('express');
 
-module.exports= async (app)=>{
+const hbs = require('express-handlebars')
+
+module.exports = (app)=>{
     app.engine(
         "hbs",
         hbs({
