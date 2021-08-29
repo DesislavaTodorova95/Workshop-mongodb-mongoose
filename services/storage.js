@@ -1,3 +1,4 @@
+const Cube = require('../models/Cube')
 const fs = require("fs/promises");
 const uniqid = require("uniqid");
 let data = {};
@@ -42,14 +43,8 @@ async function getById(id) {
   return data[id];
 }
 async function create(cube) {
-  const id = uniqid();
-  data[id] = cube;
-  try {
-    fs.writeFile("./models/data.json", JSON.stringify(data, null, 2));
-    console.log(">> created new record");
-  } catch (err) {
-    console.error("Error writing out database");
-  }
+  const record = new Cube(cube);
+  return record.save();
 }
 
 module.exports = {

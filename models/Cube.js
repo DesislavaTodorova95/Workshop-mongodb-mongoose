@@ -14,11 +14,11 @@
 
 const {Schema, model} = require('mongoose');
 
-const chema = new Schema({
+const schema = new Schema({
     name: String,
     description: String,
     imageUrl: String,
     difficulty: Number
 });
 
-module.exports= model('Cube', schema);
+module.exports= model('Cube', schema)
