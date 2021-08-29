@@ -1,4 +1,4 @@
-const Cube = require('../models/Cube')
+const Cube = require("../models/Cube");
 const fs = require("fs/promises");
 const uniqid = require("uniqid");
 let data = {};
@@ -14,7 +14,7 @@ async function init() {
       getAll,
       getById,
       create,
-      edit
+      edit,
     };
     next();
   };
@@ -38,26 +38,23 @@ async function getAll(query) {
   return cubes;
 }
 
-
 async function getById(id) {
-  const cube =await Cube.findById(id).lean();
-  
-  if(cube){
+  const cube = await Cube.findById(id).lean();
+
+  if (cube) {
     return cube;
   } else {
-    return undefined
+    return undefined;
   }
+} 
+async function edit(id, cube) {
+  const existingC = await Cube.findById(id);
 
-
-}
-async function edit(id, cube){
-  const existingC= await Cube.findById(id)
-  console.log(cube)
-if(!existingC){
-throw new ReferenceError('No such ID in database')
-}
-Object.assign(existingC, cube);
-return existingC.save();
+  if (!existingC) {
+    throw new ReferenceError("No such ID in database");
+  }
+  Object.assign(existingC, cube);
+  return existingC.save();
 }
 async function create(cube) {
   const record = new Cube(cube);
@@ -69,5 +66,4 @@ module.exports = {
   getAll,
   getById,
   create,
-
 };
