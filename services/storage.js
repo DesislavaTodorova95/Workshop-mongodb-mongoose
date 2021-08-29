@@ -14,33 +14,50 @@ async function init() {
       getAll,
       getById,
       create,
+      edit
     };
     next();
   };
 }
 
 async function getAll(query) {
-  let cubes = Object.entries(data).map(([id, v]) =>
-    Object.assign({}, { id }, v)
-  );
+  const cubes = Cube.find({}).lean();
 
   //filter cubes
-  if (query.search) {
-    cubes = cubes.filter((c) =>
-      c.name.toLowerCase().includes(query.search.toLowerCase())
-    );
-  }
-  if (query.from) {
-    cubes = cubes.filter((c) => c.difficulty >= query.from);
-  }
-  if (query.to) {
-    cubes = cubes.filter((c) => c.difficulty <= query.to);
-  }
+  // if (query.search) {
+  //   cubes = cubes.filter((c) =>
+  //     c.name.toLowerCase().includes(query.search.toLowerCase())
+  //   );
+  // }
+  // if (query.from) {
+  //   cubes = cubes.filter((c) => c.difficulty >= query.from);
+  // }
+  // if (query.to) {
+  //   cubes = cubes.filter((c) => c.difficulty <= query.to);
+  // }
   return cubes;
 }
 
+
 async function getById(id) {
-  return data[id];
+  const cube =await Cube.findById(id).lean();
+  
+  if(cube){
+    return cube;
+  } else {
+    return undefined
+  }
+
+
+}
+async function edit(id, cube){
+  const existingC= await Cube.findById(id)
+  console.log(cube)
+if(!existingC){
+throw new ReferenceError('No such ID in database')
+}
+Object.assign(existingC, cube);
+return existingC.save();
 }
 async function create(cube) {
   const record = new Cube(cube);
@@ -52,4 +69,5 @@ module.exports = {
   getAll,
   getById,
   create,
+
 };

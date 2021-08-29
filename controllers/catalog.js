@@ -11,4 +11,4 @@ catalog: async (req, res)=>{
    };
     res.render('index', ctx);
 }
-}
+};
