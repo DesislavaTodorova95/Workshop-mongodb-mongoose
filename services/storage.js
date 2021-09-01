@@ -1,5 +1,5 @@
 const Cube = require("../models/Cube");
-
+const Comment= require('../models/Comment')
 async function init() {
   return (req, res, next) => {
     req.storage = {
@@ -33,7 +33,7 @@ async function getAll(query) {
 }
 
 async function getById(id) {
-  const cube = await Cube.findById(id).lean();
+  const cube = await Cube.findById(id).populate('comments').lean();
 
   if (cube) {
     return cube;

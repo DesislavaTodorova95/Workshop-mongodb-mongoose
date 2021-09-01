@@ -6,3 +6,17 @@
   <a class="btn" href="/">Back</a>
   <a class="btn" href="/edit/{{cube._id}}">EDIT</a>
 </div>
+<div class="details">
+  <form action="/comments/{{cube._id}}/create" method="POST">
+    <label>Your name: <input type="text" name="author"></label>
+    <label>Comment: <textarea name="content"></textarea></label>
+
+  </form>
+  {{#each cube.comments}}
+  {{> comment}}
+  {{else}}
+  <span style="font-style: italic;">No comments yet. Be the first!</span>
+  {{/each}}
+
+  
+</div>
