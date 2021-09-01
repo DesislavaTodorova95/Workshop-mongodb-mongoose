@@ -13,24 +13,20 @@ async function init() {
 }
 
 async function getAll(query) {
-  
-const options = {};
+  const options = {};
 
   // filter cubes
   if (query.search) {
-    options.name = { $regex: query.search, $options: 'i'};
- 
+    options.name = { $regex: query.search, $options: "i" };
   }
   if (query.from) {
-    options.difficulty = {$gte: Number(query.from)}
-   
-  if (query.to) {
-    options.difficulty = options.difficulty || {}
-    options.difficulty.$lte = Number(query.to);
+    options.difficulty = { $gte: Number(query.from) };
 
+    if (query.to) {
+      options.difficulty = options.difficulty || {};
+      options.difficulty.$lte = Number(query.to);
     }
-    options.difficulty = {$lte: Number(query.to)}
-   
+    options.difficulty = { $lte: Number(query.to) };
   }
   const cubes = Cube.find(options).lean();
   return cubes;
