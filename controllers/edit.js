@@ -8,9 +8,9 @@ module.exports = {
     } else {
       const ctx = {
         title: "Edit Cube",
-        cube
+        cube,
       };
-      res.render('edit', ctx);
+      res.render("edit", ctx);
     }
   },
   async post(req, res) {
