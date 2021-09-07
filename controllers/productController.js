@@ -1,4 +1,4 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const router = Router();
 
 
@@ -35,7 +35,7 @@ router.get('/create',  (req, res) => {
     }
     res.redirect("/");
   });
-  router.get('/details', async (req, res) => {
+  router.get('/details/:id', async (req, res) => {
     const cube = await req.storage.getById(req.params.id);
 
     if (cube == undefined) {
@@ -48,5 +48,33 @@ router.get('/create',  (req, res) => {
       res.render("details", ctx);
     }
   });
+  router.get('/edit/:id', async (req, res)=> {
+    const cube = await req.storage.getById(req.params.id);
+    cube[`select${cube.difficulty}`] = true;
+
+    if (!cube) {
+      res.redirect("/404");
+    } else {
+      const ctx = {
+        title: "Edit Cube",
+        cube,
+      };
+      res.render("edit", ctx);
+    }
+  },)
+  router.post('/edit/:id', async(req, res)=> {
+    const cube = {
+      name: req.body.name,
+      description: req.body.description,
+      imageUrl: req.body.imageUrl,
+      difficulty: Number(req.body.difficulty),
+    };
+    try {
+      await req.storage.edit(req.params.id, cube);
+      res.redirect("/");
+    } catch (err) {
+      res.redirect("404");
+    }
+  },)
 
 module.exports = router
