@@ -75,6 +75,7 @@ async function attachSticker(cubeId, stickerId) {
 }
 
 module.exports = {
+  edit,
   getAll,
   getById,
   create,

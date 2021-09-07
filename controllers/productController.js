@@ -72,16 +72,16 @@ router.post("/edit/:id", async (req, res) => {
     await req.storage.edit(req.params.id, cube);
     res.redirect("/");
   } catch (err) {
-    res.redirect("404");
+    res.redirect("/404");
   }
 });
 
-router.get("/attach/:id", async (req, res) => {
-  const cube = await req.storage.getById(req.params.id);
+router.get("/attach/:cubeId", async (req, res) => {
+  const cube = await req.storage.getById(req.params.cubeId);
   const accessories = await req.storage.getAllAccessories(
     (cube.accessories || []).map((a) => a._id)
   );
-  res.render("/attach/:id", {
+  res.render("/attach/:cubeId", {
     title: "Attach Stickers",
     cube,
     accessories,
