@@ -11,8 +11,9 @@ async function start() {
   const port = 3000;
   const app = express();
 app.use(logger())
+await databaseConfig(app);
   expressConfig(app);
-  await databaseConfig(app);
+  
   app.use(await storage());
   routeConfig(app);
 
