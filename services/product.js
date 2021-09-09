@@ -36,12 +36,12 @@ async function getAll(query) {
 
 async function getById(id) {
   const cube = await Cube.findById(id)
-    .populate({ 
-      path: 'comments', 
-      populate: { path: 'author' } 
+    .populate({
+      path: "comments",
+      populate: { path: "author" },
     })
-    .populate('accessories')
-    .populate('author')
+    .populate("accessories")
+    .populate("author")
     .lean();
 
   if (cube) {
@@ -51,7 +51,10 @@ async function getById(id) {
       description: cube.description,
       imageUrl: cube.imageUrl,
       difficulty: cube.difficulty,
-      comments: cube.comments.map(c=>({content: c.content, author: c.author.username})),
+      comments: cube.comments.map((c) => ({
+        content: c.content,
+        author: c.author.username,
+      })),
       accessories: cube.accessories,
       author: cube.author?.username,
       authorId: cube.author?._id,

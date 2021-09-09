@@ -6,7 +6,7 @@ module.exports = () => (req, res, next) => {
   req.auth = {
     register,
     login,
-    logout
+    logout,
   };
   if (readToken(req)) {
     next();
@@ -36,9 +36,8 @@ module.exports = () => (req, res, next) => {
       }
     }
   }
-   function logout(){
+  function logout() {
     res.clearCookie(COOKIE_NAME);
-   
   }
   function createToken(user) {
     const userViewModel = { _id: user._id, username: user.username };
@@ -54,13 +53,12 @@ module.exports = () => (req, res, next) => {
         req.user = userData;
         res.locals.user = userData;
         console.log("Known user", userData.username);
-      
       } catch (err) {
         res.clearCookie(COOKIE_NAME);
         res.redirect("/auth/login");
         return false;
       }
-    } 
-    return true
+    }
+    return true;
   }
 };

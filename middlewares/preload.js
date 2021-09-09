@@ -6,14 +6,13 @@ function preloadCube() {
       if (cube) {
         req.data.cube = cube;
       }
-      
     } catch (err) {
-        console.error('Database error:', err.message);
+      console.error("Database error:", err.message);
     }
     next();
   };
 }
 
 module.exports = {
-    preloadCube
+  preloadCube,
 };

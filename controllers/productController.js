@@ -37,14 +37,13 @@ router.post("/create", isAuth(), async (req, res) => {
   }
   res.redirect("/");
 });
-router.get("/details/:id",preloadCube(), async (req, res) => {
+router.get("/details/:id", preloadCube(), async (req, res) => {
   const cube = req.data.cube;
-
 
   if (cube == undefined) {
     res.redirect("/404");
   } else {
-    cube.isOwner = req.user && (cube.authorId == req.user._id);
+    cube.isOwner = req.user && cube.authorId == req.user._id;
     const ctx = {
       title: "Cubicle",
       cube,
@@ -66,7 +65,7 @@ router.get("/edit/:id", preloadCube(), isOwner(), async (req, res) => {
     res.render("edit", ctx);
   }
 });
-router.post("/edit/:id",preloadCube(), isOwner(), async (req, res) => {
+router.post("/edit/:id", preloadCube(), isOwner(), async (req, res) => {
   const cube = {
     name: req.body.name,
     description: req.body.description,
