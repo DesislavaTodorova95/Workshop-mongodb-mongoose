@@ -36,4 +36,9 @@ try{
   
 });
 
+router.get('/logout', (req, res)=>{
+  req.auth.logout();
+  res.redirect('/products');
+})
+
 module.exports = router;
