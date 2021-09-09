@@ -19,8 +19,9 @@ router.post("/register", async (req, res) => {
 router.get("/login", (req, res) => {
   res.render("login", { title: "Login" });
 });
-router.post("/login", (req, res) => {
+router.post("/login",async  (req, res) => {
 try{
+ await req.auth.login(req.body)
 
   res.redirect("/products");
 } catch(err){
