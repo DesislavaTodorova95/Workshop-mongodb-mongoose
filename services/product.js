@@ -50,7 +50,8 @@ async function getById(id) {
       difficulty: cube.difficulty,
       comments: cube.comments,
       accessories: cube.accessories,
-      author: cube.author?.username
+      author: cube.author?.username,
+      authorId: cube.author?._id
     }
     return viewModel;
   } else {

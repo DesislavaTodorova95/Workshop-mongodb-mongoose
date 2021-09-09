@@ -1,5 +1,6 @@
 const { Router } = require("express");
-const { isAuth } = require("../middlewares/guards");
+const { isAuth, isOwner } = require("../middlewares/guards");
+const { preloadCube } = require("../middlewares/preload");
 const router = Router();
 
 router.get("/", async (req, res) => {
@@ -22,7 +23,7 @@ router.post("/create", isAuth(), async (req, res) => {
     description: req.body.description,
     imageUrl: req.body.imageUrl,
     difficulty: Number(req.body.difficulty),
-    author: req.user._id
+    author: req.user._id,
   };
   try {
     await req.storage.create(cube);
@@ -36,12 +37,14 @@ router.post("/create", isAuth(), async (req, res) => {
   }
   res.redirect("/");
 });
-router.get("/details/:id", async (req, res) => {
-  const cube = await req.storage.getById(req.params.id);
+router.get("/details/:id",preloadCube(), async (req, res) => {
+  const cube = req.data.cube;
+
 
   if (cube == undefined) {
     res.redirect("/404");
   } else {
+    cube.isOwner = req.user && (cube.authorId == req.user._id);
     const ctx = {
       title: "Cubicle",
       cube,
@@ -49,13 +52,13 @@ router.get("/details/:id", async (req, res) => {
     res.render("details", ctx);
   }
 });
-router.get("/edit/:id", async (req, res) => {
-  const cube = await req.storage.getById(req.params.id);
-  cube[`select${cube.difficulty}`] = true;
+router.get("/edit/:id", preloadCube(), isOwner(), async (req, res) => {
+  const cube = req.data.cube;
 
   if (!cube) {
     res.redirect("/404");
   } else {
+    cube[`select${cube.difficulty}`] = true;
     const ctx = {
       title: "Edit Cube",
       cube,
@@ -63,7 +66,7 @@ router.get("/edit/:id", async (req, res) => {
     res.render("edit", ctx);
   }
 });
-router.post("/edit/:id", async (req, res) => {
+router.post("/edit/:id",preloadCube(), isOwner(), async (req, res) => {
   const cube = {
     name: req.body.name,
     description: req.body.description,
