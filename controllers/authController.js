@@ -1,3 +1,4 @@
+const validator = require('validator')
 const { isGuest, isAuth } = require("../middlewares/guards");
 
 const router = require("express").Router();
@@ -6,13 +7,18 @@ router.get("/register", isGuest(), (req, res) => {
 });
 router.post("/register", isGuest(), async (req, res) => {
   try {
-    await req.auth.register(req.body);
+    const validEmail = validator.isEmail(req.body.email);
+    if(!validEmail){
+      throw new Error('Please enter a valid email')
+    }
+  
+    // await req.auth.register(req.body);
     res.redirect("/products");
   } catch (err) {
     const ctx = {
       title: "Register",
       error: err.message,
-      data: { username: req.body.username },
+      data: { username: req.body.username, email: req.body.email },
     };
     res.render("register", ctx);
   }

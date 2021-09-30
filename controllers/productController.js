@@ -1,3 +1,4 @@
+const e = require("express");
 const { Router } = require("express");
 const { isAuth, isOwner } = require("../middlewares/guards");
 const { preloadCube } = require("../middlewares/preload");
@@ -28,10 +29,12 @@ router.post("/create", isAuth(), async (req, res) => {
   try {
     await req.storage.create(cube);
   } catch (err) {
+    const error = Object.values(err.errors).map(e => e.properties.message);
+
     if (err.name == "ValidationError") {
       return res.render("create", {
         title: "Create Cube",
-        error: "All fields are required. Image URL must be a valid URL",
+        error,
       });
     }
   }

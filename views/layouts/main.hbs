@@ -17,21 +17,26 @@
         <ul>
           <li><img class="logo" src="/static/images/logo.png" /></li>
           <li><a href="/">Browse</a></li>
-            <li><a href="/about">About</a></li>
-            {{#if user}}
-          <li><a href="/products/create">Add a Cube</a></li>
-          <li><a href="/accessory/create">Add an Accessory</a></li>
-          <li><a href="/auth/logout">Logout</a></li>
+          <li><a href="/about">About</a></li>
+          {{#if user}}
+            <li><a href="/products/create">Add a Cube</a></li>
+            <li><a href="/accessory/create">Add an Accessory</a></li>
+            <li><a href="/auth/logout">Logout</a></li>
           {{else}}
-          <li><a href="/auth/register">Register</a></li>
-          <li><a href="/auth/login">Login</a></li>
-        {{/if}}
+            <li><a href="/auth/register">Register</a></li>
+            <li><a href="/auth/login">Login</a></li>
+          {{/if}}
         </ul>
       </header>
+      {{#if error}}
+        <div id="notifications">
+          {{#each error}}
+            <p>{{this}}</p>
+          {{/each}}
+
+        </div>
+      {{/if}}
       <main>
-        {{#if error}}
-          <span class="error">{{error}}</span>
-        {{/if}}
 
         {{{body}}}
 
